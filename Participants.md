@@ -14,3 +14,6 @@ $ npm i
 
 ```
 
+##Base de donnée
+
+Ajout de données via PostMan
