@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <title>La Cuisine</title>
+</head>
+
+<body>
+<div class="row">
+<div class="col-lg-offset-1 col-lg">
+<ul class="collection">
+<% for(var i=0; i < orders.length; i++) {%>
+   <li class="collection-item">Commande n°<%= orders[i]._id %>
+<ul class="collection">
+            <li><%= orders[i].status %></li>
+            <li>Products
+                <ul class="collection">
+                    <% for(var j=0; j< orders[i].products.length; j++) {%>
+                    <li class="collection-item red white-text"><%= orders[i].products[j].name %></li>
+                    <li class="collection-item"><%= orders[i].products[j].price %> € </li>
+                    <li class="collection-item"><%= orders[i].products[j].category %></li>
+                    <% } %>
+                </ul>
+            </li>
+            <li><%= orders[i].totalPrice %></li>
+        </ul>
+    </li>
+<button id="<%=  orders[i]._id %>" class="order-btn btn red white-text">Send order</button>
+<% } %>
+</ul>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.dev.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"> </script>
+    <script>
+        $(function () {
+            const socket = io.connect('localhost:8080');
+
+            $('.order-btn').click(function () {
+                let orderId = $(this).attr('id');
+                socket.emit('clickOrderBtn', orderId);
+                location.reload();
+            }); 
+        });
+    </script>
+</body>
+
+</html>
